@@ -12,7 +12,7 @@ function setupDevTool() {
 
 module.exports = {
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.css'],
   },
 
   mode: NODE_ENV ? NODE_ENV : 'development',
@@ -25,10 +25,24 @@ module.exports = {
   },
 
   module: {
-    rules: [{
+    rules: [
+    {
       test: /\.[tj]sx?$/,
       use: ['ts-loader'],
-    }],
+    },
+    {
+      test: /\.css$/,
+      use: ['style-loader', {
+        loader: 'css-loader',
+        options: {
+          modules: {
+            mode: 'local',
+            localIdentName: '[name]__[local]--[hash:base64:5]',
+          },
+        },
+      }],
+    },
+  ],
   },
 
   plugins: [
